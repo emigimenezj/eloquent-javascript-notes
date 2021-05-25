@@ -17,14 +17,14 @@
 > You can use a backslash `\` to escape a character in strings.
 > 
 > The `+` operator glues two strings together.
-- **Unary operators**
-- **Boolean values**
+- **Unary Operators**
+- **Boolean Values**
 > There is only one value in JavaScript that is not equal to itself, and that is `NaN`.
 
-- **Empty values**
+- **Empty Values**
 > There are two special values, written `null` and `undefined`.
 
-- **Automatic type conversion**
+- **Automatic Type Conversion** ⭐
 > When an operator is applied to the « wrong » type of value, JavaScript will quietly convert that value to the type it needs.
 > 
 > ```javascript
@@ -61,21 +61,45 @@
   >> The rules for converting strings and numbers to Boolean values state that `0`, `NaN`, and the empty string `""` count as `false`, while all the other values count as `true`.
 ------
 # Chapter 2: Program Structure ([link](https://eloquentjavascript.net/02_program_structure.html))
-- **Expressions and statements**
+- **Expressions and Statements**
 - **Bindings**
-- **Binding names**
-- **The environment**
+> There are three ways to declare bindings: `let`, `var` and `const`.
+
+> A single `let`statement may define multiple bindings.
+
+> The words `var` is the way bindings were declared in pre-2015 JavaScript.
+
+> The word `const` defines a constant binding, which points at the same value for as log as it lives.
+- **Binding Names**
+> There are words with a special meaning and they may not be used as binding names.
+> 
+> This is the full list of *keywords*:
+> 
+> break case catch class const continue debugger default
+> delete do else enum export extends false finally for
+> function if implements import interface in instanceof let
+> new package private protected public return static super
+> switch this throw true try typeof var void while with yield
+- **The Environment**
 - **Functions**
-- **The console.log function**
-- **Return values**
-- **Control flow**
-- **Conditional execution**
-- **While and do loops**
+- **The console.log Function**
+- **Return Values**
+- **Control Flow**
+> There are three functions called `Number`, `String` and `Boolean` that convert values to those types.
+- **Conditional Execution**
+> The `Number.isNaN` function returns `true` only if the argument is it given is `NaN`.
+- **While and Do Loops**
 - **Indenting Code**
-- **For loops**
-- **Breaking out of a loop**
-- **Updating bindings succinclty**
-- **Dispatching on a value wwith switch**
+- **For Loops**
+- **Breaking Out of a Loop** ⭐
+> There is a special statement called `break` that has the effect of immediately jumping out of the enclosing loop.
+>
+> There is another special statement called `continue` that when is encountered in a loop body, control jumps out of the body and continues with the loop's next iteration.
+
+> The `%` operator is an easy way to test whether a number is divisible by another number.
+- **Updating Bindings Succinclty**
+- **Dispatching on a Value with Switch** ⭐
+> Tehre is a construct called `switch` that...
 - **Capitalization**
 - **Comments**
 
