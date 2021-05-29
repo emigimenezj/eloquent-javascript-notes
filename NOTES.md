@@ -10,7 +10,7 @@
   >> The `+` and `*` symbols are called *operators*. When operators appear together without parentheses, the order in which they are applied is determined by the *precedence* of the operators.
 
 > **→ Special numbers**
-  >> There are three special values in JavaScript that are considered numbers: `Infinity`, `-Infinity` and `NaN` (« Not a Number»).
+  >> There are three special values in JavaScript that are considered numbers: `Infinity`, `-Infinity` and `NaN` ("Not a Number").
 - **Strings**
 > Strings are writteng by enclosing their contnent in quotes, you can use single quotes, double quotes or backticks.
 > 
@@ -25,7 +25,7 @@
 > There are two special values, written `null` and `undefined`.
 
 - **Automatic Type Conversion** ⭐
-> When an operator is applied to the « wrong » type of value, JavaScript will quietly convert that value to the type it needs.
+> When an operator is applied to the "wrong" type of value, JavaScript will quietly convert that value to the type it needs.
 > 
 > ```javascript
 > console.log(8 * null)
@@ -99,24 +99,94 @@
 > The `%` operator is an easy way to test whether a number is divisible by another number.
 - **Updating Bindings Succinclty**
 - **Dispatching on a Value with Switch** ⭐
-> Tehre is a construct called `switch` that...
+> There is a construct called `switch` that...
 - **Capitalization**
 - **Comments**
-
+------
 # Chapter 3: Functions ([link](https://eloquentjavascript.net/03_functions.html))
 - **Defining a function**
+> ```javascript
+> const square = function(x) {
+>   return x * x;
+> }
+> console.log(square(12));
+> // → 144
+> ```
+
+> Some functions don't produce a value, like the next one, whose only result is a *side effect*.
+> ```javascript
+> const makeNoise = function() {
+>  console.log("Pling!");
+> };
+> makeNoise();
+> // → Pling!
+> ```
+
+> A `return` keyword without an expression after it will cause the function to return `undefined`.
+> 
+> Functions that don't have a `return` statement at all, such as `makeNoise`, similarly return `undefined`.
 - **Bindings and scopes**
 - **Nested scope**
 - **Functions as values**
 - **Declaration notation**
+> This is a function *declaration*. The statement defines the binding `square` and points it at the given function.
+> ```javascript
+> function square(x) {
+>   return x * x;
+> }
+> ```
+> Function declarations are not part of the regular top-to-bottom flow of control. The preceding code works, even though the function is defined *below* the code that uses it.
+> ```javascript
+> console.log("The future says:", future());
+>
+> function future() {
+>   return "You'll never have flying cars";
+> }
+> ```
 - **Arrow functions**
+> There's a third notation for functions. Instead of the `function` keyword, it uses an arrow `=>`.
+> ```javascript
+> const sum = (x, y) => {return x + y;};
+> ```
+> When there is only one parameter name, you can omit the parentheses around the parameter list. Also if the body is a single expression, rather than a block in braces, that expression will be returned from the function.
+> ```javascript
+> // These two definitions of square do the same thing.
+> const square1 = (x) => {return x * x;};
+> const square2 = x => x * x;
+> ```
+> When an arrow function has no parameters at all, its parameter list is just an empty set of parentheses.
+> ```javascript
+> const hello = () => {console.log("Hello world!");};
+> ```
 - **The call stack**
-- **Optional arguments**
-- **Closure**
+- **Optional arguments** ⭐
+> If the number of arguments you pass to a function is too many, the extra ones are ignored. If you pass too few, the missing parameters get assigned the value `undefined`.
+
+> If you write an `=` operator after a parameter, followed by an expression, the value of that expression will replace the argument when it is not given.
+> ```javascript
+> function sum(x, y = 1) {
+>   return x + y;
+> }
+> console.log(sum(10));
+> // → 11
+> console.log(sum(10, 5));
+> // → 15
+> ```
+- **Closure** ⭐
+> The "being able to reference a specific instance of a local binding in an enclosing scope" feature is called *closure*. A function that references bindings from local scopes around it is called *a* closure.
+> ```javascript
+> function multiplier(factor) {
+>   return number => number * factor;
+> }
+> let twice = multiplier(2);
+> console.log(twice(5));
+> // → 10
+> ```
 - **Recursion**
+> In typical JavaScript implementations, the recursion it's about three times slower than the looping version. You have to decide between human-friendliness and machine-friendliness.
 - **Growing functions**
 - **Functions and side effects**
-
+------
 # Chapter 4: Data Structures: Objects and Arrays ([link](https://eloquentjavascript.net/04_data.html))
 - **The weresquirrel**
 - **Data sets**
