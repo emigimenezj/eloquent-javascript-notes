@@ -191,17 +191,159 @@
 - **The weresquirrel**
 - **Data sets**
 - **Properties**
+> Almost all JavaScript values have properties. The exceptions are `null` and `undefined`. If you try to access a property on one of these nonvalues, you get an error.
+
+> The two main ways to access properties in JavaScript are with a dot and with square brackets. Both `value.x` and `value[x]` access aa propert on `value`, but not necessarily the same property. The difference is in how `x` is interpreted. When using a dot, the word after the dot is the literal name of the property. When using square brackets, the expression between the brackets is *evaluated* to get the property name.
 - **Methods**
+> String methods:
+> **→ toUpperCase**
+  >> When called, it will return a copy of the string in which all letters have been converted to uppercase.
+>
+> **→ toLowerCase**
+  >> Going the other way.
+> Array methods:
+> **→ push**
+  >> Adds values to the end of an array.
+> **→ pop**
+  >> Removes the last value in the array and return it.
 - **Objects**
-- **Mutability**
+> Reading a property that doesn't exist will give you the value `undefined`.
+
+> It is possible to assign a value to a property expression with the `=` operator. This will replace the property's value if it already existed or create a new property on the object if it didn't.
+
+> The `delete` operator is an unary operator that, when applied to an object property, will remove the named property from the object.
+
+> To find out what properties an object has, you can use the `Object.keys` function.
+> ```javascript
+> console.log(Object.keys({x: 0, y: 0, z: 2}));
+> // → ["x", "y", "z"]
+
+> There's an `Object.assign` function that copies all properties from one object into another.
+> ```javascript
+> let objectA = {a: 1, b: 2};
+> Object.assign(objectA, {b: 3, c: 4});
+> console.log(objectA);
+> // → {a: 1, b: 3, c: 4}
+- **Mutability** ⭐
+> The types of values discussed in earlier chapters, such as numbers, strings, and Booleans, are all *immutable* (it is impossible to change values of those types). If you have a string that contains "cat", it is not possible for other code to change a character in your string to make it spell "rat".
+
+> Bindings can also be changeable or constant, but this is separate from the way their values behave. Even though number values don't change, you can use a `let` binding to keep track of a changing number by changing the value the binding points at. Similarly, though a `const` binding to an object can itself not be changed and will continue to point at the same object, the *contents* of that object might change.
+> ```javascript
+> const score = {visitors: 0, home: 0};
+> // This is okay
+> score.visitors = 1;
+> // This isn't allowed
+> score = {visitors: 1, home: 1};
+> ```
+
+> When you compare objects with JavaScript's `==` operator, it compares by identity: it will produce true only if both objects are precisely the same value. Comparing different objects will return `false`, even if they have identical properties. There is no "deep" comparison operation built into JavaScript, which compares objects by contents.
 - **The Lycanthrope's log**
 - **Computing correlation**
-- **Array loops**
+- **Array loops** ⭐
+> There is a simple way to write loops in modern JavaScript.
+> ```javascript
+> let arr = [10,20,30]
+> for (let index in arr) console.log(index);
+> // → 0,1,2
+> for (let value of arr) console.log(value);
+> // → 10,20,30
+> ```
+> Use the keyword `in` after a variable definition to loop over the index of the array.
+> 
+> Use the keyword `of` after a variable definition to loop over the elements of the array.
 - **The final analysis**
 - **Further arrayology**
+> The methods for adding and removing things at the start of an array are called `unshift` and `shift` respectively.
+> ```javascript
+> let arr = [1,2,3,4,5]
+> arr.shift // arr = [2,3,4,5] // returns 1 (the element removed)
+> arr.unshift(1)); // arr = [1,2,3,4,5] // returns 5 (the new length of the array)
+> ```
+
+> To search for a specific value, array provide an `indexOf` method. The method searches through the array from the start to the end and returns the index at which the requested value was found or -1 if it wasn't found. To search from the end instead of the start, there's a method called `lastIndexOf`.
+> ```javascript
+> console.log([1,2,3,2,1].indexOf(2));
+> // → 1
+> console.log([1,2,3,2,1].lastIndexOf(2));
+> // → 3
+> ```
+> Both methods take an optional second argument that indicates where to start searching.
+
+> Another method is `slice`, which takes start (inclusive) and end (exclusive) indices and returns an array that has only the elements between them.
+> ```javascript
+> console.log([0,1,2,3,4].slice(2,4));
+> // → [2, 3]
+> console.log([0,1,2,3,4].slice(2));
+> // → [2,3,4]
+
+> The `concat` method can be used to glue arrays together to create a new array.
+> ```javascript
+> function remove(array, index) {
+>   return array.slice(0, index).concat(array.slice(index+1));
+> }
+> console.log(remove(["a","b","c","d","e"], 2))
+> // → ["a","b","d","e"]
+> ```
+
 - **Strings and their properties**
-- **Rest Parameters**
+> Method `slice` and `indexOf`.
+> ```javascript
+> console.log("coconuts".slice(4,7));
+> // → nut
+> console.log("coconut".indexOf("u"));
+> // → 5
+> ```
+
+> Method `trim` removes whitespace (spaces, newlines, tabs, and similar characters).
+> ```javascript
+> console.log("    okay \n  ".trim());
+> // → okay
+
+> Method `padStart` takes the desired length and padding character as arguments.
+> ```javascript
+> console.log(String(6).padStart(3,"0"));
+> // → 006
+
+> ⭐
+> 
+> You can split a string on every occurrence of another string with `split` and join it agaian with `join`.
+> ```javascript
+> let sentence = "Hello world!"
+> let words = sentence.split(" ");
+> console.log(words);
+> // → ["Hello", "world!"]
+> console.log(words.join(", "));
+> // → Hello, world!
+> ```
+
+> Method `repeat` creates a new strinngg containing multiple copies of the original string, glued together.
+> ```javascript
+> console.log("LA".repeat(3));
+> // → LALALA
+> ```
+- **Rest Parameters** ⭐
+> To accept any number of arguments in a function, you put three dots before the function's last parameter.
+> ```javascript
+> function max(...numbers) {
+>   let result = -Infinity;
+>   for (let number of numbers) {
+>     if (number > result) result = number;
+>   }
+>   return result;
+> }
+> console.log(max(4,1,9,-2));
+> // → 9
+> ```
+> When such a function is called, the *rest parameter* is bound to an array containing all further arguments. If there are other parameters before it, their values aren't part of that array.
+> 
+> Square bracket array notation similarly allows the triple-dot operator to spread another array into the new array.
+> ```javascript
+> let words = ["never, "fully"]
+> console.log(["will", ...words, "understand"]);
+> // → ["will", "never", "fully", "understand"]
+> ```
 - **The Math Object**
+> Many languages will stop you, or at least warn you, when you are defining a binding with a name that is already taken. JavaScript does this for bindings you declared with `let` and `const` but not for standard bindings nor for bindings declared with `var` or `function`.
 - **Destructuring**
 - **JSON**
 
