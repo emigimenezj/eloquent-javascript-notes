@@ -13,10 +13,12 @@
   >> There are three special values in JavaScript that are considered numbers: `Infinity`, `-Infinity` and `NaN` ("Not a Number").
 - **Strings**
 > Strings are writteng by enclosing their contnent in quotes, you can use single quotes, double quotes or backticks.
-> 
+
 > You can use a backslash `\` to escape a character in strings.
-> 
+ 
 > The `+` operator glues two strings together.
+
+> The way JavaScript modeled Strings as a series of bits based on the *Unicode* standard. But there's a complication: JavaScript's representation uses 16 bits per string element, but Unicode defines more characters than 2^16. So some characters, such as many emoji, take up two "character positions" in JavaScript strings.
 - **Unary Operators**
 - **Boolean Values**
 > There is only one value in JavaScript that is not equal to itself, and that is `NaN`.
@@ -196,14 +198,18 @@
 > The two main ways to access properties in JavaScript are with a dot and with square brackets. Both `value.x` and `value[x]` access aa propert on `value`, but not necessarily the same property. The difference is in how `x` is interpreted. When using a dot, the word after the dot is the literal name of the property. When using square brackets, the expression between the brackets is *evaluated* to get the property name.
 - **Methods**
 > String methods:
+> 
 > **→ toUpperCase**
   >> When called, it will return a copy of the string in which all letters have been converted to uppercase.
 >
 > **→ toLowerCase**
   >> Going the other way.
+>
 > Array methods:
+> 
 > **→ push**
   >> Adds values to the end of an array.
+> 
 > **→ pop**
   >> Removes the last value in the array and return it.
 - **Objects**
@@ -350,14 +356,70 @@
 # Chapter 5: Higher-order Functions ([link](https://eloquentjavascript.net/05_higher_order.html))
 - **Abstraction**
 - **Abstracting repetition**
-- **Higher-order Function**
+> We can abstract "doing something N times" as a function.
+> ```javascript
+> function repeat(n, action) {
+>   for (let i = 0; i < n; i++) {
+>     action(i);
+>   }
+> }
+> repeat(3, console.log);
+> // → 0
+> // → 1
+> // → 2
+> ```
+> 
+> We don't have to pass a predefined function to `repeat`. Often, it is easier to create a function value on the spot instead.
+> ```javascript
+> let labels = []
+> repeat(5, i => {
+>   labels.push(`Unit ${i + 1}`);
+> });
+> console.log(labels);
+> // → ["Unit 1", "Unit 2", "Unit 3", "Unit 4", "Unit 5"]
+> ```
+
+- **Higher-order Function** ⭐
+> Higher-order functions allow us to abstract over *actions*, not just values. For example, we can have functions that create new functions.
+> ```javascript
+> function greaterThan(n) {return m => m > n;}
+> let greaterThan10 = greaterThan(10);
+> console.log(greaterThan(11));
+> // → True  
+> ```
+> 
+> We can even write functions that provide new types of control flow.
+> ```javascript
+> function unless(test, then) {
+>   if (!test) then();
+> }
+> repeat(3, n => {
+>   unless(n % 2 == 1, () => {
+>     console.log(n, "is even");
+>   });
+> });
+> // → 0 is even
+> // → 2 is even
+> ```
+> 
+> There is a built-in array method, `forEach`, that provides something like a for/of loop as a higher-order function.
+> ```javascript
+> ["A","B"].forEach(l => console.log(l));
+> // → A
+> // → B
+> ```
 - **Script Data Set**
 - **Filtering Arrays**
+> Filter method explained.
 - **Transforming with Map**
+> Map method explained.
 - **Summarizing with Reduce**
+> Reduce method explained.
 - **Composability**
 - **Strings and Character Codes**
+> JavaScript's `charCodeAt` method gives you a code unit, not a full character code. The `codePointAt` method, added later, does give a full Unicode character.
 - **Recognizing Text**
+> Another array method is `findIndex`. This method finds the first value for which the given function returns true. It returns -1 when no such element is found.
 
 # Chapter 6: The Secret Life of Objects ([link](https://eloquentjavascript.net/06_object.html))
 - **Encapsulation**
