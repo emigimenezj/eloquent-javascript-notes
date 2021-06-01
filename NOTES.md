@@ -654,7 +654,7 @@
 > To initialize, the constructor calls its superclass's constructor through the `super` keyword.
 > 
 > The `set` method again uses `super` but this time not to call the constructor but to call a specific method from the superclass's set of methods. We are redefining `set` but do want to use the original behavior. Because `this.set` refers to the *new* `set` method, calling that wouldn't work. Inside class methods, `super` provides a way to call methods as they were defined in the superclass.
-- **The Instanceof Operator**
+#### The Instanceof Operator
 > For know whether an object was derived from a specific class, JavaScript provides a binary operator called `instanceof`.
 > ```javascript
 > console.log(new SymmetricMatrix(2) instanceof SymmetricMatrix);
