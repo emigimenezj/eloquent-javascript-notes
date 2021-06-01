@@ -420,21 +420,252 @@
 > JavaScript's `charCodeAt` method gives you a code unit, not a full character code. The `codePointAt` method, added later, does give a full Unicode character.
 - **Recognizing Text**
 > Another array method is `findIndex`. This method finds the first value for which the given function returns true. It returns -1 when no such element is found.
-
+------
 # Chapter 6: The Secret Life of Objects ([link](https://eloquentjavascript.net/06_object.html))
 - **Encapsulation**
 - **Methods**
-- **Prototypes**
+> If you want to pass `this` explicitly, you can use a function's `call` method, which takes the `this` value as its first argument and treats further arguments as normal parameters.
+> ```javascript
+> function speak(line) {
+>   console.log(`The ${this.type} rabbit says '${line}'`);
+> }
+> let hungryRabbit = {type: "hungry", speak};
+> 
+> hungryRabbit.speak("Feed me!");
+> // → The hungry rabbit says 'Feed me!'
+> 
+> speak.call(hungryRabbit, "Feed me!");
+> // → The hungry rabbit says 'Feed me!'
+> ```
+
+> Arrow functions do not bind their own `this` but can see the `this` binding of the scope around them. Thus, you can do something like the following code, which references `this` from inside a local function:
+> ```javascript
+> function normalize() {
+>   console.log(this.coords.map(n => n / this.length));
+> }
+> normalize.call({coords: [0,2,3], length: 5});
+> // → [0, 0.4, 0.6]
+> ```
+> If I had written the argument to `map` using the `function` keyword, the code wwouldn't work.
+- **Prototypes** ⭐
+> A prototype is another object that is used as a fallback source of properties.
+
+> The entity behind almost all object is `Object.prototype`.
+> ```javascript
+> console.log(Object.getPrototypeOf({}) == Object.prototype);
+> // → true
+> console.log(Object.getPrototypeOf(Object.prototype));
+> // → null
+> ```
+> As you guess, `Object.getPrototypeOf` returns the prototype of an object.
+
+> Functions derive from `Function.prototype`, and arrays derive from `Array.prototype`.
+> ```javascript
+> console.log(Object.getPrototypeOf(Math.max) == Function.prototype);
+> // → true
+> console.log(Object.getPrototypeOf([]) == Array.prototype);
+> // → true
+> ```
+
+> You can use `Object.create` to create an object with a specific prototype.
+> ```javascript
+> let protoRabbit = {
+>   speak(line) {
+>     console.log(`The ${this.type} rabbit says '${line}'`);
+>   }
+> };
+> let killerRabbit = Object.create(protoRabbit);
+> killerRabbit.type = "killer";
+> killerRabbit.speak("SKREEEE!");
+> // → The killer rabbit says 'SKREEEE!'
+> ```
+
 - **Classes**
 - **Class Notation**
+> JavaSript classes are constructor functions with a prototype property and until 2015 we have a better notation.
+> ```javascript
+> class Rabbit {
+>   constructor(type) {
+>     this.type = type;
+>   }
+>   speak(line) {
+>     console.log(`The ${this.type} rabbit says '${line}'`);
+>   }
+> }
+> 
+> let killerRabbit = new Rabbit("killer");
+> let blackRabbit = new Rabbit("black");
+> ```
+> The `class` keyword starts a class declaration, which allows us to define a constructor and a set of methods all in a single place. The method named `constructor` provides the actual constructor function, which will be bound to the name Rabbit.
+
+> Class declarations currently allow only *methods* (properties that hold functions) to be added to the prototype. If you want to save a non-function value, you can create such properties by direclty manipulating the prototype after you've defined the class.
+
+> Like `functions`, `class` can be used both in statementns and in expressions.
 - **Overriding Derived Properties**
 - **Maps**
+> JavaScript comes with a class called `Map` that is written for stores a mapping and allows any type of keys.
+> ```javascript
+> let ages = new Map();
+> ages.set("Boris", 39);
+> ages.set("Liang", 22);
+> ages.set("Júlia", 62);
+> console.log(`Júlia is ${ages.get("Júlia")}`);
+> // → Júlia is 62
+> console.log("Is Jack's age known?", ages.has("Jack"));
+> // → Is Jack's age known? false
+> console.log(ages.has("toString"));
+> // → false
+> ```
+> The methods `set`, `get` and `has` are part of the interface of the Map object.
+
+> It is useful to know that `Object.keys` returns onlye an object's *own* keys, not those in the prototype.
+
+> As an alternative to the `in` operator, you can use the `hasOwnProperty` method, which ignores the object's prototype.
+> ```javascript
+> console.log({x: 1}.hasOwnProperty("x"));
+> // → true
+> console.log({x: 1}.hasOwnProperty("toString"));
+> // → false
+> ```
 - **Polymorphism**
+> When a piece of code is written to work with objects that have a certain interface, any kind of object that happens to support this interface can be plugged into the code and it will just work. This technique is called *polymorphism*. Polymorphic code can work with values of different shapes, as long as they support the interface it expects.
 - **Symbols**
-- **The Iterator Interface**
-- **Getters, setters, and statics**
+> Property names usually are strings but they can also be *symbols*. Symbols are values created with the `Symbol` function. Unlike strings, newly created symbols are unique (you cannot create the same symbol twice).
+- **The Iterator Interface** ⭐
+> The object given to a `for/of` loop is expected to be *iterable*. This means it has a method named with the `Symbol.iterator` symbol (a symbol value defined by the language, stored as a property of the `Symbol` function).
+> 
+> When called, that method should return an object that provides a second interface, *iterator*. It has a `next` method that returns the next result. That result should be an object with a `value` property that provides the next value, if there is one, and a `done` property, which should be true when there are no more results and false otherwise.
+
+> Let's implement an iterable data structure. We'll build a *matrix* class, acting as a two-dimensional array.
+> ```javascript
+> class Matrix {
+>   constructor(width, height, element = (x, y) => undefined) {
+>     this.width = width;
+>     this.height = height;
+>     this.content = [];
+>     
+>     for (let y = 0; y < height; y++) {
+>       for (let x = 0; x < width; x++) {
+>         this.content[y * width + x] = element(x, y);
+>       }
+>     }
+>   }
+>   get(x, y) {
+>     return this.content[y * this.width + x];
+>   }
+>   set(x, y, value) {
+>     this.content[y * this.width + x] = value;
+>   }
+> }
+> ```
+> 
+> So now, we'll haave our iterator produce objects with `x`, `y` and `value` properties.
+> ```javascript
+> class MatrixIterator {
+>   constructor(matrix) {
+>     this.x = 0;
+>     this.y = 0;
+>     this.matrix = matrix;
+>   }
+>   next() {
+>     if (this.y == this.matrix.height) return {done: true};
+>     
+>     let value ={
+>       x: this.x,
+>       y: this.y,
+>       value: this.matrix.get(this.x, this.y)
+>     };
+>     this.x++;
+>     if (this.x == this.matrix.width) {
+>       this.x = 0;
+>       this.y++;
+>     }
+>     return {value, done: false};
+>   }
+> }
+> ```
+
+> Let's set up the `Matrix` class to be iterable.
+> ```javascript
+> Matrix.prototype[Symbol.iterator] = function() {
+>   return new MatrixIterator(this);
+> };
+> ```
+> We can now loop over a matrix with `for/of`.
+> ```javascript
+> let matrix = new Matrix(2, 2, (x, y) => `value ${x},${y}`);
+> for (let {x, y, value} of matrix) {
+>   console.log(x, y, value);
+> }
+> // → 0 0 value 0,0
+> // → 1 0 value 1,0
+> // → 0 1 value 0,1
+> // → 1 1 value 1,1
+> ```
+- **Getters, setters, and statics** ⭐
+> It is not even necessary for such an object to compute and store such a property ddirectly in the instance. Even properties that are accessed directly may hide a method call. Such methods are called *getters*, and they are defined by writing `get` in front of the method name in an object expression or class declaration. You can do a similar thing when a property is wwritteen to, using a *setter*. Finally, inside a class declaration, methods that have `static`writen before their names are stored on the constructor. So the following code allows you to write `Temperature.fromFarenheit(100)` to create a temperature using degrees Fahrenheit.
+> ```javascript
+> class Temperature {
+>   constructor(celsius) {
+>     this.celsius = celsius;
+>   }
+>   get fahrenheit() {
+>     return this.celsius * 1.8 + 32;
+>   }
+>   set fahrenheit(value) {
+>     this.celsius = (value - 32) / 1.8;
+>   }
+>
+>   static fromFahrenheit(value) {
+>     return new Temperature((value - 32) / 1.8);
+>   }
+> }
+>
+> let temp = new Temperature(22);
+> console.log(temp.fahrenheit);
+> // → 71.6
+> temp.fahrenheit = 86;
+> console.log(temp.celsius);
+> // → 30
+> ```
 - **Inheritance**
-- **The Instance of Operator**
+> JavaScript's prototype system makes it possible to create a *new* class, much like the old class, but with new definitions for some of its properties. The prototype for the neww class derives from the old prototype but adds a new definition for, say, the `set` method. This is called *inheritance*. The new class inherits properties and behavior form the old class.
+> ```javascript
+> class SymmetricMatrix extends Matrix {
+>   constructor(size, element = (x, y) => undefined) {
+>     super(size, size, (x, y) => {
+>       if (x < y) return element(y, x);
+>       else return element(x, y);
+>     });
+>   }
+>   
+>   set(x, y, value) {
+>     super.set(x, y, value);
+>     if (x != y) super.set(y, x, value);
+>   }
+> }
+> 
+> let matrix = new SymmetricMatrix(5, (x, y) => `${x},${y}`);
+> console.log(matrix.get(2,3));
+> // → 3,2
+> ```
+> The use of the word `extends` indicates that this class shouldn't be direclty based on the default `Object` prototype but on some other class. This is called the *superclass*. The derived class is the *subclass*.
+> 
+> To initialize, the constructor calls its superclass's constructor through the `super` keyword.
+> 
+> The `set` method again uses `super` but this time not to call the constructor but to call a specific method from the superclass's set of methods. We are redefining `set` but do want to use the original behavior. Because `this.set` refers to the *new* `set` method, calling that wouldn't work. Inside class methods, `super` provides a way to call methods as they were defined in the superclass.
+- **The Instanceof Operator**
+> For know whether an object was derived from a specific class, JavaScript provides a binary operator called `instanceof`.
+> ```javascript
+> console.log(new SymmetricMatrix(2) instanceof SymmetricMatrix);
+> // → true
+> console.log(new SymmetricMatrix(2) instanceof Matrix);
+> // → true
+> console.log(new Matrix(2, 2) instanceof SymmetricMatrix);
+> // → false
+> console.log([1] instanceof Array);
+> // → true
+> ```
 
 # Chapter 7: Project: A Robot ([link](https://eloquentjavascript.net/07_robot.html))
 - **Meadowfield**
