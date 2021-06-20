@@ -97,7 +97,7 @@
 
 **◼️ Return Values**
 
-#### ◼️ Control Flow**
+#### ◼️ Control Flow
 > There are three functions called `Number`, `String` and `Boolean` that convert values to those types.
 #### ◼️ Conditional Execution
 > The `Number.isNaN` function returns `true` only if the argument is it given is `NaN`.
@@ -296,7 +296,7 @@
 
 **◼️ The final analysis**
 
-#### ◼️ Further arrayology**
+#### ◼️ Further arrayology
 > The methods for adding and removing things at the start of an array are called `unshift` and `shift` respectively.
 > ```javascript
 > let arr = [1,2,3,4,5]
@@ -462,7 +462,7 @@
 
 **◼️ Composability**
 
-#### ◼️ Strings and Character Codes**
+#### ◼️ Strings and Character Codes
 > JavaScript's `charCodeAt` method gives you a code unit, not a full character code. The `codePointAt` method, added later, does give a full Unicode character.
 #### ◼️ Recognizing Text
 > Another array method is `findIndex`. This method finds the first value for which the given function returns true. It returns -1 when no such element is found.
@@ -725,12 +725,70 @@
 > ```
 
 # Chapter 7: Project: A Robot ([link](https://eloquentjavascript.net/07_robot.html))
-- **Meadowfield**
-- **The Task**
-- **Persistent Data**
-- **Simulation**
-- **The Mail Truck's Route**
-- **Pathfinding**
+#### ◼️ Meadowfield
+> ```javascript
+> function buildGraph(edges) {
+>   let graph = Object.create(null);
+>   function addEdge(from, to) {
+>     if (graph[from] == null) {
+>       graph[from] = [to];
+>     } else {
+>       graph[from].push(to);
+>     }
+>   }
+>   // Example of pattern matching in javascript <-----------------------
+>   for (let [from, to] of edges.map(r => r.split("-"))) {
+>     addEdge(from, to);
+>     addEdge(to, from);
+>   }
+>   return graph;
+> }
+> ```
+
+**◼️ The Task**
+
+### ◼️ Persistent Data
+
+> Data structures that don’t change are called *immutable* or *persistent*. They behave a lot like strings and numbers in that they are who they are and stay that way, rather than containing different things at different times.
+
+> There is a function called `Object.freeze` that changes an object so that writing to its properties is ignored.
+> ```javascript
+> let object = Object.freeze({value: 5});
+> object.value = 10;
+> console.log(object.value);
+> // → 5
+> ```
+> Be careful with this and use it with caution or will be thhe reason of many problems.
+
+### ◼️ Simulation
+
+> Remember that `Math.random()` returns a number between zero and one, but always below one. Multiplying such a number by an integer allows you to extend the random pick range and when you apply `Math.floor`, it gives to you a random integer (not float) number.
+> ```javascript
+> function randomNumberBetween(start, end) {
+>   return Math.floor(Math.random()*(++end-start) + start);
+> }
+> ```
+> This function returns a random number between start and end inclusive. Check it out that `++end` it works well, but` end++` it doesn't work in this specific case.
+
+**◼️ The Mail Truck's Route**
+
+### ◼️ Pathfinding
+
+> BFS?
+> ```javascript
+> function findRoute(graph, from, to) {
+>   let work = [{at: from, route: []}];
+>   for (let i = 0; i < work.length; i++) {
+>     let {at, route} = work[i];
+>     for (let place of graph[at]) {
+>       if (place == to) return route.concat(place);
+>       if (!work.some(w => w.at == place)) {
+>         work.push({at: place, route: route.concat(place)});
+>       }
+>     }
+>   }
+> }
+> ```
 
 # Chapter 8: Bugs and Errors (Coming soon)
 # Chapter 9: Regular Expressions (Coming soon)
