@@ -791,7 +791,387 @@
 > ```
 
 # Chapter 8: Bugs and Errors (Coming soon)
-# Chapter 9: Regular Expressions (Coming soon)
+
+**◼️ Language**
+
+### ◼️ Strict Mode
+> JavaScript can enable *strict mode* by putting the string `"use strict"`  at the top of a file or a function body.
+
+> A change in strict mode is that the `this` binding holds the value `undefined` in functions that are not called as methods.
+> 
+> When making such a call outside of strict mode, `this` refers to the global scope object, which is an object whose properties are the global bindings.
+> 
+> So if you accidentally call a method or constructor incorrectly in strict mode, JavaScript will produce an error as soon as it tries to read something from this, rather than happily writing to the global scope.
+> 
+> ```javascript
+> // Example
+> function Person(name) {
+>   this.name = name;
+> }
+> let ferdinand = Person("Ferdinand"); // oops
+> console.log(name);
+> // → Ferdinand
+> ```
+> 
+> Fortunately, constructors created with the `class` notation will always complain if they are called without `new`.
+
+### ◼️ Type
+
+> There are several JavaScript dialects that add types to the language and check them. The most popular one is called `TypeScript`.
+
+**◼️ Testing**
+
+### ◼️ Debugging
+
+> A way to set a breakpoint is to include a debugger statement in your program. If the developer tools of your browser are active, the program will pause whenever it reaches such a statement.
+
+**◼️ Error Propagation**
+
+### ◼️ Exceptions
+
+> The `throw` keyword is used to raise an exception.
+> 
+> Catching one is done by wrapping a piece of code in a `try` block, followed by the keyword `catch`.
+> 
+> When the code in the `try` block causes an exception to be raised, the `catch` block is evaluated, with the name in parentheses bound to the exception value.
+
+> You can use the `Error` constructor to create an exception value.
+> ```javascript
+> // Example
+> function promptDirection(question) {
+>   let result = prompt(question);
+>   if (result.toLowerCase() == "left") return "L";
+>   if (result.toLowerCase() == "right") return "R";
+>   throw new Error("Invalid direction: " + result);
+> }
+> ```
+
+### ◼️ Cleaning Up After Exceptions
+
+> The `try` statement may be followed by a `finally` block either instead of or in addition to a `catch` block.
+> 
+> A `finally` block says "no matter *what* happens, run this code after trying to run the code in the `try` block".
+> 
+> *(this is because if the `try` block throw an exception, the control flow of the code stops immediately and that isn't always practical)*
+
+### ◼️ Selective Catching
+
+> You can define a new type of error and use `instanceof` to identify it.
+> ```javascript
+> class InputError extends Error {}
+> 
+> for (;;) {
+>   try {
+>     let dir = promptDirection("Where?");
+>     console.log("You chose ", dir);
+>     break;
+>   } catch (e) {
+>     if (e instanceof InputError) {
+>       console.log("Not a valid direction. Try again.");
+>     } else {
+>       throw e;
+>     }
+>   }
+> }
+> ```
+> 
+> The new class `InputError` it doesn't define anything at all, the class is empty.
+> So its behave is like `Error` objects, except that they have a different name by which we can recognize them.
+
+**◼️ Assertions**
+
+# Chapter 9: Regular Expressions
+
+**◼️ Creating a Regular Expression**
+
+### ◼️ Testing for Matches
+> Regular expression objects have a number of methods. The simplest one is `test`. If you pass it a string, it will return a Boolean telling you whether the string contains a match of the pattern in the expression.
+> ```javascript
+> console.log(/abc/.test("abcde"));
+> // → true
+> console.log(/abc/.test("abxde"));
+> // → false
+> ```
+> If *abc* occurs anywhere in the string we are testing against (not just at the start), `test` will return `true`.
+
+### ◼️ Set of Characters ⭐
+
+> In a regular expression, putting a set of characters between square brackets makes that part of the expression match any of the characters between the brackets.
+> ```javascript
+> console.log(/[0123456789]/.test("in 1992"));
+> // → true
+> console.log(/[0-9]/.test("in 1992"));
+> // → true
+> ```
+> Characters 0 to 9 sit right next to each other in Unicode numbers (codes 48 to 57), so [0-9] covers all of them and matches any digit.
+
+> A number of common character groups have their own built-in shortcuts.
+> - \d	Any digit character
+> - \w	An alphanumeric character (“word character”)
+> - \s	Any whitespace character (space, tab, newline, and similar)
+> - \D	A character that is not a digit
+> - \W	A nonalphanumeric character
+> - \S	A nonwhitespace character
+> - .	Any character except for newline
+
+> To *invert* a set of characters, you can write a caret (^) character after the opening bracket.
+> ```javascript
+> let notBinary = /[^01]/;
+> console.log(notBinary.test("1100100010100110"));
+> // → false
+> console.log(notBinary.test("1100100010200110"));
+> // → true
+> ```
+
+### ◼️ Repeating Parts of a Pattern
+
+> The `+` symbol means one or more characters.
+> 
+> The `*` symbol means zero or more characters.
+> 
+> The `?` symbol means *optional* character.
+
+> The `{n}` symbol means that the pattern should occur *n* times.
+> 
+> It is also possible to specify a range this way: `{2,4}` means the element must occur at least twice and at most four times.
+> 
+> ```javascript
+> // Example of regular expression for date and time pattern
+> let dateTime = /\d{1,2}-\d{1,2}-\d{4} \d{1,2}:\d{2}/;
+> console.log(dateTime.test("1-30-2003 8:45"));
+> // → true
+> ```
+> You can also specify open-ended ranges when using braces by omitting the number after the comma. So, `{5,}` means five or more times.
+
+### ◼️ Grouping Subexpressions
+
+> Use parentheses to group subexpressions.
+
+> The `i` at the end of the expression makes a regular expression case insensitive.
+> ```javascript
+> let cartoonCrying = /boo/i;
+> console.log(cartoonCrying.test("Boo"));
+> // → true
+> ```
+
+### ◼️ Matches and groups
+
+> Regular expressions also have an `exec` (execute) method that will return `null` if no match was found and return an object with information about the match otherwise.
+> ```javascript
+> let match = /\d+/.exec("one two 100");
+> console.log(match);
+> // → ["100"]
+> console.log(match.index);
+> // → 8
+> ```
+> An object returned from `exec` has an `index` property that tells us *where* in the string the successful match begins.
+> 
+> String values have a match method that behaves similarly.
+> ```javascript
+> console.log("one two 100".match(/\d+/));
+> // → ["100"]
+> ```
+
+> When the regular expression contains subexpressions grouped with parentheses, the text that matched those groups will also show up in the array. The whole match is always the first element.
+> 
+> The next element is the part matched by the first group (the one whose opening parenthesis comes first in the expression), then the second group, and so on.
+> 
+> ```javascript
+> let quotedText = /'([^']*)'/;
+> console.log(quotedText.exec("she said 'hello'"));
+> // → ["'hello'", "hello"]
+> ```
+
+> When a group does not end up being matched at all (for example, when followed by a question mark), its position in the output array will hold undefined.
+> ```javascript
+> console.log(/bad(ly)?/.exec("bad"));
+> // → ["bad", undefined]
+> ```
+
+### ◼️ The Date Class ⭐
+
+> JavaScript standard class for representing dates is called `Date`. If you simply create a date object using `new`, you get the current date and time.
+> ```javascript
+> console.log(new Date());
+> // → Mon Nov 13 2017 16:19:11 GMT+0100 (CET)
+> ```
+
+> You can also create an object for a specific time.
+> ```javascript
+> console.log(new Date(2009, 11, 9));
+> // → Wed Dec 09 2009 00:00:00 GMT+0100 (CET)
+> console.log(new Date(2009, 11, 9, 12, 59, 59, 999));
+> // → Wed Dec 09 2009 12:59:59 GMT+0100 (CET)
+> ```
+
+> You can use the method `getTime` on a date object to returns milliseconds passed since Jan 1 1970.
+> ```javascript
+> console.log(new Date(2013, 11, 19).getTime());
+> // → 1387407600000
+> console.log(new Date(1387407600000));
+> // → Thu Dec 19 2013 00:00:00 GMT+0100 (CET)
+> ```
+
+> Putting parentheses around the parts of the expression that we are interested in, we can now create a date object from a string.
+> ```javascript
+> function getDate(string) {
+>   let [_, month, day, year] =
+>     /(\d{1,2})-(\d{1,2})-(\d{4})/.exec(string);
+>   return new Date(year, month - 1, day);
+> }
+> console.log(getDate("1-30-2003"));
+> // → Thu Jan 30 2003 00:00:00 GMT+0100 (CET)
+> ```
+
+### ◼️ Word and String Boundaries
+
+> If we want to enforce that the match must span the whole string, we can add the markers ^ and $. So, `/^\d+$/` matches a string consisting entirely of one or more digits, `/^!/` matches any string that starts with an exclamation mark.
+
+> If we just want to make sure the date starts and ends on a word boundary, we can use the marker \b.
+> ```javascript
+> console.log(/cat/.test("concatenate"));
+> // → true
+> console.log(/\bcat\b/.test("concatenate"));
+> // → false
+> ```
+
+
+### ◼️ Choice Patterns
+
+> The pipe character `|` denotes a choice between the pattern to its left and the pattern to its right.
+> ```
+> let animalCount = /\b\d+ (pig|cow|chicken)s?\b/;
+> console.log(animalCount.test("15 pigs"));
+> // → true
+> console.log(animalCount.test("15 pigchickens"));
+> // → false
+> ```
+
+**◼️ The Mechanics of Matching**
+
+**◼️ Backtracking**
+
+### ◼️ The Replace Method
+
+> String values have a `replace` method that can be used to replace part of the string with another string.
+> 
+> The first argument can also be a regular expression. When a g option (for *global*) is added to the regular expression, all matches in the string will be replaced, not just the first.
+> ```javascript
+> console.log("Borobudur".replace(/[ou]/, "a"));
+> // → Barobudur
+> console.log("Borobudur".replace(/[ou]/g, "a"));
+> // → Barabadar
+> ```
+
+> The real power of using regular expressions with `replace` comes from the fact that we can refer to matched groups in the replacement string.
+> ```javascript
+> console.log(
+>   "Liskov, Barbara\nMcCarthy, John\nWadler, Philip"
+>     .replace(/(\w+), (\w+)/g, "$2 $1"));
+> // → Barbara Liskov
+> //   John McCarthy
+> //   Philip Wadler
+> ```
+> The `$1` and `$2` in the replacement string refer to the parenthesized groups in the pattern. `$1` is replaced by the text that matched against the first group, `$2` by the second, and so on, up to `$9`. The whole match can be referred to with `$&`.
+
+> It is possible to pass a function —rather than a string— as the second argument to `replace`.
+> ```javascript
+> let stock = "1 lemon, 2 cabbages, and 101 eggs";
+> function minusOne(match, amount, unit) {
+>   amount = Number(amount) - 1;
+>   if (amount == 1) { // only one left, remove the 's'
+>     unit = unit.slice(0, unit.length - 1);
+>   } else if (amount == 0) {
+>     amount = "no";
+>   }
+>   return amount + " " + unit;
+> }
+> console.log(stock.replace(/(\d+) (\w+)/g, minusOne));
+> // → no lemon, 1 cabbage, and 100 eggs
+> ```
+
+### ◼️ Greed
+
+> It is possible to use `replace` to write a function that removes all comments from a piece of JavaScript code.
+>```javascript
+> function stripComments(code) {
+>   return code.replace(/\/\/.*|\/\*[^]*\*\//g, "");
+> }
+> console.log(stripComments("1 + /* 2 */3"));
+> // → 1 + 3
+> console.log(stripComments("x = 10;// ten!"));
+> // → x = 10;
+> console.log(stripComments("1 /* a */+/* b */ 1"));
+> // → 1  1 // This have gone wrong.
+>```
+> 
+> The `[^]*` part of the expression will first match as much as it can. In the example, the matcher first tries to match the whole rest of the string and then moves back (backtracking) from there. It will find an occurrence of `*/` after going back four characters and match that.
+> 
+> Because of this behavior, we say the repetition operators `+, *, ?, and {}` are *greedy*, meaning they match as much as they can and backtrack from there.
+> 
+> If you put a question mark after them `+?, *?, ??, {}?`, they become nongreedy and start by matching as little as possible.
+> 
+> ```javascript
+> function stripComments(code) {
+>   return code.replace(/\/\/.*|\/\*[^]*?\*\//g, ""); // replace [^]* by [^]*?
+> }
+> console.log(stripComments("1 /* a */+/* b */ 1"));
+> // → 1 + 1
+> ```
+
+### ◼️ Dynamically Creating RegExp Objects
+
+> You can build up a string and use the RegExp constructor on that.
+> ```javascript
+> let name = "harry";
+> let text = "Harry is a suspicious character.";
+> let regexp = new RegExp("\\b(" + name + ")\\b", "gi");
+> console.log(text.replace(regexp, "_$1_"));
+> // → _Harry_ is a suspicious character.
+> ```
+
+> If the name is "dea+hl[]rd", we can add backslashes before any character that has a special meaning.
+> ```javascript
+> let name = "dea+hl[]rd";
+> let text = "This dea+hl[]rd guy is super annoying.";
+> let escaped = name.replace(/[\\[.+*?(){|^$]/g, "\\$&");
+> let regexp = new RegExp("\\b" + escaped + "\\b", "gi");
+> console.log(text.replace(regexp, "_$&_"));
+> // → This _dea+hl[]rd_ guy is super annoying.
+> ```
+
+### ◼️ The Search Method
+
+> The `indexOf` method on strings cannot be called with a regular expression. There is another method, `search`, that does expect a regular expression.
+> ```javascript
+> // In RegEx, the '\S' symbol means a nonwhitespace character
+> console.log("  word".search(/\S/));
+> // → 2
+> console.log("    ".search(/\S/));
+> // → -1
+> ```
+
+**◼️ The lastIndex property** (wtf)
+
+### ◼️ Looping Over Matches
+
+> You can loop over the matches of a regular expression:
+> ```javascript
+> let input = "A string with 3 numbers in it... 42 and 88.";
+> let number = /\b\d+\b/g;
+> let match;
+> while (match = number.exec(input)) {
+>   console.log("Found", match[0], "at", match.index);
+> }
+> // → Found 3 at 14
+> //   Found 42 at 33
+> //   Found 88 at 40
+> ```
+
+**◼️ Parsing an INI File**
+
+**◼️ International Characters**
+
 # Chapter 10: Modules (Coming soon)
 # Chapter 11: Asynchronous Programming (Coming soon)
 # Chapter 12: Project: A Programming Language (Coming soon)
