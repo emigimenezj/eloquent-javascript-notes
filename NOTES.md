@@ -1172,8 +1172,172 @@
 
 **◼️ International Characters**
 
-# Chapter 10: Modules (Coming soon)
-# Chapter 11: Asynchronous Programming (Coming soon)
+# Chapter 10: Modules
+
+**◼️ Modules**
+
+**◼️ Packages**
+
+**◼️ Improvised Modules**
+
+**◼️ Evaluating Data as Code**
+
+**◼️ CommonJS**
+
+### ◼️ ECMAScript Modules
+
+> New notation; *ES modules*. The notation is integrated into the language by using `import` and `from`keyword, instead of calling a function to access a dependency.
+> ```javascript
+> import ordinal from "ordinal";
+> import {days, months} from "date-names";
+> 
+> export function formatDate(date, format) { /* ... */ }
+> ```
+> The `export` keyword is used to export things. It may appear in front of a function, class or bindingn definition (`let`, `const` or `var`).
+> 
+> (OBS) When you import something, you import the *binding*, not the value. So the value of a binding could change at some point. (like a pointer in C++)
+
+> When there is a binding named `default`, it is treated as the module's main exported value. If you import a module without braces around the binding name, you get its `default` binding.
+> 
+> To create a default export, just write `export default` before an expression, function declaration or a class declaration.
+> ```javascript
+> export default ["Winter", "Spring", "Summer", "Autumn"];
+> ```
+
+> It is possible to rename imported bindings using the word `as`.
+> ```javascript
+> import {days as dayNames} from "date-names";
+> console.log(dayNames.length);
+> // → 7
+> ```
+
+**◼️ Building and Bundling**
+
+**◼️ Module Design**
+
+# Chapter 11: Asynchronous Programming
+
+**◼️ Asynchronicity**
+
+**◼️ Crow Tech**
+
+**◼️ Callbacks**
+
+### ◼️ Promises ⭐
+
+> One way to create a promise is by calling `Promise.resolve`.
+> ```javascript
+> let fifteen = Promise.resolve(15);
+> fifteen.then(value => console.log(`Got ${value}`));
+> // → Got 15
+> ```
+> To get the result of a promise, you can use its `then` method. This registers a callback function to be called when the promise resolves and produces a value.
+> 
+> The `then` method returns another promise, which resolves to the value that the handler function returns or, if that returns a promise, waits for that promise and then resolves to its result.
+
+> Another way to create a promise, you can use `Promise` as a constructor.
+> ```javascript
+> function storage(nest, name) {
+>   return new Promise(resolve => {
+>     nest.readStorage(name, result => resolve(result));
+>   });
+> }
+> storage(bigOak, "enemies")
+>   .then(value => console.log("Got", value));
+> ```
+
+### ◼️ Failure ⭐
+
+> The promises can be either resolved (the action finished successfully) or rejected (it failed). Much like resolving a promise provides a value, rejecting one also provides one.
+
+> There's a `Promise.reject` function that creates a new ommediately rejected promise.
+> 
+> To explicity handle such rejections, promises have a `catch` method that registers a handler to be called when the promise is rejected, similar to how `then` handlers handle normal resolution.
+> 
+> The `catch` method is also very much like `then` in that it returns a new promise. If a `catch` handler throws an error, the new promise is also rejected.
+
+> As a shorthand, `then` also accepts a rejection handler as a second argument.
+
+> Handlers that don't match the type of outcome (success or failure) are ignored.
+> 
+> But those that do match are called, and their outcome determines what kind of value comes next...
+> - Success: when it returns a non-promise value.
+> - Rejection: whenn it throws an exception.
+> - Another promise: when the outcome is a promise.
+> ```javascript
+> new Promise((_, reject) => reject(new Error("Fail")))
+>   .then(value => console.log("Handler 1"))
+>   .catch(reason => {
+>     console.log("Caught failure " + reason);
+>     return "nothing";
+>   })
+>   .then(value => console.log("Handler 2", value));
+> // → Caught failure Error: Fail
+> // → Handler 2 nothing
+> ```
+
+**◼️ Networks are Hard**
+
+### ◼️ Collections of Promises ⭐
+
+> When working with collections of promises running at the same time, the `Promise.all` function can be useful. It returns a promise that waits for all the promises in the array to resolve. If any promise is rejected, the result of `Promise.all` is itself rejected.
+> ```javascript
+> function availableNeighbors(nest) {
+>   let requests = nest.neighbors.map(neighbor => {
+>     return request(nest, neighbor, "ping")
+>       .then(() => true, () => false);
+>   });
+>   return Promise.all(requests).then(result => {
+>     return nest.neighbors.filter((_, i) => result[i]);
+>   });
+> }
+> ```
+> This makes use of the fact that `filter` passes the array index of the current element as a second argument to its filtering function (`map`, `some`, and similar *higher-order array methods* do the same).
+
+### ◼️ Network Flooding
+
+> Explain how to send a message to each node of the whole network by using a style of network communication called *flooding* (it floods the network with a piece of information until all nodes have it).
+
+### ◼️ Message routing
+
+> Explain how to send a message to a single node of the network.
+
+### ◼️ Async Functions
+
+> An async function is marked by the word `async` before the `function` keyword.
+> 
+> Inside an `async` function, the word `await` can be put in front of an expression to wait for a promise to resolve and only then continue the execution of the function. Such a function no longer runs from start to competion in one go. Instead, it can be *frozen* at any point that has an `await`, and can bbe resumed at a later time.
+
+### ◼️ Generators ⭐
+
+> There are other functions in JavaScript with the ability to be paused (without promises), that functions are called *generators*.
+> 
+> When you define a function with `function*`, it becomes a *generator*. When you call a generator, it returns an iterator.
+> ```javascript
+> function* powers(n) {
+>   for (let current = n; current < 600; current *= n) {
+>     yield current;
+>   }
+> }
+> 
+> for (let power of powers(2)) {
+>   //if (power > 600) break;
+>   console.log(power);
+> }
+> // → 3
+> // → 9
+> // → 27
+> ```
+> Initially, when you call *powers*, the function is frozen at its start. Every time you call `next` on the iterator, the function runs until it hits a `yield` expression which pauses it and causes the yielded value to become the next value produced by the iterator. When the function returns (the one in the example never does), the iterator is done.
+
+> The `yield` expressions may occur only directly in the generator function itself and not in an inner function you define inside of it.
+
+> An `async` function is a special type of generator. It produces a promise when called, which is resolved when it returns (finishes) and rejected when it throws an exception. Whenever it yields (awaits) a promise, the result of that promise (value or thrown exception) is the result of the `await` expression.
+
+**◼️ The Event Loop**
+
+**◼️ Asynchronous Bugs**
+
 # Chapter 12: Project: A Programming Language (Coming soon)
 # Chapter 13: JavaScript and the Browser (Coming soon)
 # Chapter 14: The Document Object Model (Coming soon)
