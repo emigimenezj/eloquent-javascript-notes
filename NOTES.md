@@ -3,7 +3,7 @@
 
 **◼️ Values**
 
-#### ◼️ Numbers
+### ◼️ Numbers
 
 > JavaScript uses a fixed number of 64 bits to store a single number value.
 >  
@@ -15,7 +15,7 @@
 > **→ Special numbers**
   >> There are three special values in JavaScript that are considered numbers: `Infinity`, `-Infinity` and `NaN` ("Not a Number").
 
-#### ◼️ Strings
+### ◼️ Strings
 
 > Strings are writteng by enclosing their contnent in quotes, you can use single quotes, double quotes or backticks.
 
@@ -27,15 +27,15 @@
 
 **◼️ Unary Operators**
 
-#### ◼️ Boolean Values
+### ◼️ Boolean Values
 
 > There is only one value in JavaScript that is not equal to itself, and that is `NaN`.
 
-#### ◼️ Empty Values
+### ◼️ Empty Values
 
 > There are two special values, written `null` and `undefined`.
 
-#### ◼️ Automatic Type Conversion ⭐
+### ◼️ Automatic Type Conversion ⭐
 
 > When an operator is applied to the "wrong" type of value, JavaScript will quietly convert that value to the type it needs.
 > 
@@ -77,7 +77,7 @@
 
 **◼️ Expressions and Statements**
 
-#### ◼️ Bindings
+### ◼️ Bindings
 
 > There are three ways to declare bindings: `let`, `var` and `const`.
 
@@ -87,7 +87,7 @@
 
 > The word `const` defines a constant binding, which points at the same value for as log as it lives.
 
-#### ◼️ Binding Names
+### ◼️ Binding Names
 
 > There are words with a special meaning and they may not be used as binding names.
 > 
@@ -107,11 +107,11 @@
 
 **◼️ Return Values**
 
-#### ◼️ Control Flow
+### ◼️ Control Flow
 
 > There are three functions called `Number`, `String` and `Boolean` that convert values to those types.
 
-#### ◼️ Conditional Execution
+### ◼️ Conditional Execution
 
 > The `Number.isNaN` function returns `true` only if the argument is it given is `NaN`.
 
@@ -121,7 +121,7 @@
 
 **◼️ For Loops**
 
-#### ◼️ Breaking Out of a Loop ⭐
+### ◼️ Breaking Out of a Loop ⭐
 
 > There is a special statement called `break` that has the effect of immediately jumping out of the enclosing loop.
 >
@@ -131,7 +131,7 @@
 
 **◼️ Updating Bindings Succinclty**
 
-#### ◼️ Dispatching on a Value with Switch ⭐
+### ◼️ Dispatching on a Value with Switch ⭐
 
 > There is a construct called `switch` that...
 
@@ -142,7 +142,7 @@
 ------
 # Chapter 3: Functions ([link](https://eloquentjavascript.net/03_functions.html))
 
-#### ◼️ Defining a function
+### ◼️ Defining a function
 
 > ```javascript
 > const square = function(x) {
@@ -171,7 +171,7 @@
 
 **◼️ Functions as values**
 
-#### ◼️ Declaration notation
+### ◼️ Declaration notation
 
 > This is a function *declaration*. The statement defines the binding `square` and points it at the given function.
 > ```javascript
@@ -188,7 +188,7 @@
 > }
 > ```
 
-#### ◼️ Arrow functions
+### ◼️ Arrow functions
 
 > There's a third notation for functions. Instead of the `function` keyword, it uses an arrow `=>`.
 > ```javascript
@@ -207,7 +207,7 @@
 
 **◼️ The call stack**
 
-#### ◼️ Optional arguments ⭐
+### ◼️ Optional arguments ⭐
 
 > If the number of arguments you pass to a function is too many, the extra ones are ignored. If you pass too few, the missing parameters get assigned the value `undefined`.
 
@@ -222,7 +222,7 @@
 > // → 15
 > ```
 
-#### ◼️ Closure ⭐
+### ◼️ Closure ⭐
 
 > The "being able to reference a specific instance of a local binding in an enclosing scope" feature is called *closure*. A function that references bindings from local scopes around it is called *a* closure.
 > ```javascript
@@ -234,7 +234,7 @@
 > // → 10
 > ```
 
-#### ◼️ Recursion
+### ◼️ Recursion
 
 > In typical JavaScript implementations, the recursion it's about three times slower than the looping version. You have to decide between human-friendliness and machine-friendliness.
 
@@ -249,13 +249,13 @@
 
 **◼️ Data sets**
 
-#### ◼️ Properties
+### ◼️ Properties
 
 > Almost all JavaScript values have properties. The exceptions are `null` and `undefined`. If you try to access a property on one of these nonvalues, you get an error.
 
 > The two main ways to access properties in JavaScript are with a dot and with square brackets. Both `value.x` and `value[x]` access aa propert on `value`, but not necessarily the same property. The difference is in how `x` is interpreted. When using a dot, the word after the dot is the literal name of the property. When using square brackets, the expression between the brackets is *evaluated* to get the property name.
 
-#### ◼️ Methods
+### ◼️ Methods
 
 > String methods:
 > 
@@ -273,7 +273,7 @@
 > **→ pop**
   >> Removes the last value in the array and return it.
 
-#### ◼️ Objects
+### ◼️ Objects
 
 > Reading a property that doesn't exist will give you the value `undefined`.
 
@@ -293,7 +293,7 @@
 > console.log(objectA);
 > // → {a: 1, b: 3, c: 4}
 
-#### ◼️ Mutability ⭐
+### ◼️ Mutability ⭐
 
 > The types of values discussed in earlier chapters, such as numbers, strings, and Booleans, are all *immutable* (it is impossible to change values of those types). If you have a string that contains "cat", it is not possible for other code to change a character in your string to make it spell "rat".
 
@@ -312,7 +312,7 @@
 
 **◼️ Computing correlation**
 
-#### ◼️ Array loops ⭐
+### ◼️ Array loops ⭐
 
 > There is a simple way to write loops in modern JavaScript.
 > ```javascript
@@ -328,7 +328,7 @@
 
 **◼️ The final analysis**
 
-#### ◼️ Further arrayology
+### ◼️ Further arrayology
 
 > The methods for adding and removing things at the start of an array are called `unshift` and `shift` respectively.
 > ```javascript
@@ -362,7 +362,7 @@
 > // → ["a","b","d","e"]
 > ```
 
-#### ◼️ Strings and their properties
+### ◼️ Strings and their properties
 
 > Method `slice` and `indexOf`.
 > ```javascript
@@ -400,7 +400,7 @@
 > // → LALALA
 > ```
 
-#### ◼️ Rest Parameters ⭐
+### ◼️ Rest Parameters ⭐
 
 > To accept any number of arguments in a function, you put three dots before the function's last parameter.
 > ```javascript
@@ -423,7 +423,7 @@
 > // → ["will", "never", "fully", "understand"]
 > ```
 
-#### ◼️ The Math Object
+### ◼️ The Math Object
 
 > Many languages will stop you, or at least warn you, when you are defining a binding with a name that is already taken. JavaScript does this for bindings you declared with `let` and `const` but not for standard bindings nor for bindings declared with `var` or `function`.
 
@@ -435,7 +435,7 @@
 
 **◼️ Abstraction**
 
-#### ◼️ Abstracting repetition
+### ◼️ Abstracting repetition
 
 > We can abstract "doing something N times" as a function.
 > ```javascript
@@ -460,7 +460,7 @@
 > // → ["Unit 1", "Unit 2", "Unit 3", "Unit 4", "Unit 5"]
 > ```
 
-#### ◼️ Higher-order Function ⭐
+### ◼️ Higher-order Function ⭐
 
 > Higher-order functions allow us to abstract over *actions*, not just values. For example, we can have functions that create new functions.
 > ```javascript
@@ -493,21 +493,21 @@
 
 **◼️ Script Data Set**
 
-#### ◼️ Filtering Arrays
+### ◼️ Filtering Arrays
 
 > Filter method explained.
 
-#### ◼️ Transforming with Map
+### ◼️ Transforming with Map
 
 > Map method explained.
 
-#### ◼️ Summarizing with Reduce
+### ◼️ Summarizing with Reduce
 
 > Reduce method explained.
 
 **◼️ Composability**
 
-#### ◼️ Strings and Character Codes
+### ◼️ Strings and Character Codes
 
 > JavaScript's `charCodeAt` method gives you a code unit, not a full character code. The `codePointAt` method, added later, does give a full Unicode character.
 
@@ -519,7 +519,7 @@
 
 **◼️ Encapsulation**
 
-#### ◼️ Methods
+### ◼️ Methods
 
 > If you want to pass `this` explicitly, you can use a function's `call` method, which takes the `this` value as its first argument and treats further arguments as normal parameters.
 > ```javascript
@@ -545,7 +545,7 @@
 > ```
 > If I had written the argument to `map` using the `function` keyword, the code wwouldn't work.
 
-#### ◼️ Prototypes ⭐
+### ◼️ Prototypes ⭐
 
 > A prototype is another object that is used as a fallback source of properties.
 
@@ -581,7 +581,7 @@
 
 **◼️ Classes**
 
-#### ◼️ Class Notation
+### ◼️ Class Notation
 
 > JavaSript classes are constructor functions with a prototype property and until 2015 we have a better notation.
 > ```javascript
@@ -605,7 +605,7 @@
 
 **◼️ Overriding Derived Properties**
 
-#### ◼️ Maps
+### ◼️ Maps
 
 > JavaScript comes with a class called `Map` that is written for stores a mapping and allows any type of keys.
 > ```javascript
@@ -632,15 +632,15 @@
 > // → false
 > ```
 
-#### ◼️ Polymorphism
+### ◼️ Polymorphism
 
 > When a piece of code is written to work with objects that have a certain interface, any kind of object that happens to support this interface can be plugged into the code and it will just work. This technique is called *polymorphism*. Polymorphic code can work with values of different shapes, as long as they support the interface it expects.
 
-#### ◼️ Symbols
+### ◼️ Symbols
 
 > Property names usually are strings but they can also be *symbols*. Symbols are values created with the `Symbol` function. Unlike strings, newly created symbols are unique (you cannot create the same symbol twice).
 
-#### ◼️ The Iterator Interface ⭐
+### ◼️ The Iterator Interface ⭐
 
 > The object given to a `for/of` loop is expected to be *iterable*. This means it has a method named with the `Symbol.iterator` symbol (a symbol value defined by the language, stored as a property of the `Symbol` function).
 > 
@@ -713,7 +713,7 @@
 > // → 1 1 value 1,1
 > ```
 
-#### ◼️ Getters, setters, and statics ⭐
+### ◼️ Getters, setters, and statics ⭐
 
 > It is not even necessary for such an object to compute and store such a property ddirectly in the instance. Even properties that are accessed directly may hide a method call. Such methods are called *getters*, and they are defined by writing `get` in front of the method name in an object expression or class declaration. You can do a similar thing when a property is wwritteen to, using a *setter*. Finally, inside a class declaration, methods that have `static`writen before their names are stored on the constructor. So the following code allows you to write `Temperature.fromFarenheit(100)` to create a temperature using degrees Fahrenheit.
 > ```javascript
@@ -741,7 +741,7 @@
 > // → 30
 > ```
 
-#### ◼️ Inheritance
+### ◼️ Inheritance
 
 > JavaScript's prototype system makes it possible to create a *new* class, much like the old class, but with new definitions for some of its properties. The prototype for the neww class derives from the old prototype but adds a new definition for, say, the `set` method. This is called *inheritance*. The new class inherits properties and behavior form the old class.
 > ```javascript
@@ -769,7 +769,7 @@
 > 
 > The `set` method again uses `super` but this time not to call the constructor but to call a specific method from the superclass's set of methods. We are redefining `set` but do want to use the original behavior. Because `this.set` refers to the *new* `set` method, calling that wouldn't work. Inside class methods, `super` provides a way to call methods as they were defined in the superclass.
 
-#### ◼️ The Instanceof Operator
+### ◼️ The Instanceof Operator
 
 > For know whether an object was derived from a specific class, JavaScript provides a binary operator called `instanceof`.
 > ```javascript
@@ -785,7 +785,7 @@
 
 # Chapter 7: Project: A Robot ([link](https://eloquentjavascript.net/07_robot.html))
 
-#### ◼️ Meadowfield
+### ◼️ Meadowfield
 
 > ```javascript
 > function buildGraph(edges) {
