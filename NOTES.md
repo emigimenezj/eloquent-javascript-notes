@@ -511,7 +511,7 @@
 
 > JavaScript's `charCodeAt` method gives you a code unit, not a full character code. The `codePointAt` method, added later, does give a full Unicode character.
 
-#### ◼️ Recognizing Text
+### ◼️ Recognizing Text
 
 > Another array method is `findIndex`. This method finds the first value for which the given function returns true. It returns -1 when no such element is found.
 ------
