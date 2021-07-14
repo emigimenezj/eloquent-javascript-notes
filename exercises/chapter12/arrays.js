@@ -23,4 +23,4 @@ do(define(sum, fun(array,
         sum))),
    print(sum(array(1, 2, 3))))
 `);
-*/ // requires chapter/12_language.js to work // https://eloquentjavascript.net/code/#12.1   (downbelow, second link)
+*/
