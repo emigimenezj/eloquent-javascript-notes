@@ -1,4 +1,3 @@
-------
 # Chapter 1: Values, Types, and Operators ([link](https://eloquentjavascript.net/01_values.html))
 
 **◼️ Values**
@@ -71,7 +70,6 @@
   >> ```
   >>
   >> The rules for converting strings and numbers to Boolean values state that `0`, `NaN`, and the empty string `""` count as `false`, while all the other values count as `true`.
-------
 
 # Chapter 2: Program Structure ([link](https://eloquentjavascript.net/02_program_structure.html))
 
@@ -139,7 +137,6 @@
 
 **◼️ Comments**
 
-------
 # Chapter 3: Functions ([link](https://eloquentjavascript.net/03_functions.html))
 
 ### ◼️ Defining a function
@@ -242,7 +239,6 @@
 
 **◼️ Functions and side effects**
 
-------
 # Chapter 4: Data Structures: Objects and Arrays ([link](https://eloquentjavascript.net/04_data.html))
 
 **◼️ The weresquirrel**
@@ -514,7 +510,7 @@
 ### ◼️ Recognizing Text
 
 > Another array method is `findIndex`. This method finds the first value for which the given function returns true. It returns -1 when no such element is found.
-------
+
 # Chapter 6: The Secret Life of Objects ([link](https://eloquentjavascript.net/06_object.html))
 
 **◼️ Encapsulation**
@@ -851,7 +847,7 @@
 > }
 > ```
 
-# Chapter 8: Bugs and Errors (Coming soon)
+# Chapter 8: Bugs and Errors ([link](https://eloquentjavascript.net/08_error.html))
 
 **◼️ Language**
 
@@ -941,7 +937,7 @@
 
 **◼️ Assertions**
 
-# Chapter 9: Regular Expressions
+# Chapter 9: Regular Expressions ([link](https://eloquentjavascript.net/09_regexp.html))
 
 **◼️ Creating a Regular Expression**
 
@@ -1233,7 +1229,7 @@
 
 **◼️ International Characters**
 
-# Chapter 10: Modules
+# Chapter 10: Modules ([link](https://eloquentjavascript.net/10_modules.html))
 
 **◼️ Modules**
 
@@ -1276,7 +1272,7 @@
 
 **◼️ Module Design**
 
-# Chapter 11: Asynchronous Programming
+# Chapter 11: Asynchronous Programming ([link](https://eloquentjavascript.net/11_async.html))
 
 **◼️ Asynchronicity**
 
@@ -1399,7 +1395,7 @@
 
 **◼️ Asynchronous Bugs**
 
-# Chapter 12: Project: A Programming Language
+# Chapter 12: Project: A Programming Language ([link](https://eloquentjavascript.net/12_language.html))
 
 ### ◼️ Parsing
 
@@ -1601,8 +1597,324 @@
 
 **◼️ Cheating**
 
-# Chapter 13: JavaScript and the Browser (Coming soon)
-# Chapter 14: The Document Object Model (Coming soon)
+# Chapter 13: JavaScript and the Browser ([link](https://eloquentjavascript.net/13_browser.html))
+
+### ◼️ Networks and the Internet
+
+> A *network protocol* describes a style of communication over a network. For example, the *Hypertext Transfer Protocol* (HTTP) is a protocol for retrieving named resources (chunks of information, such as web pages or pictures).
+
+> HTTP treats the network as a streamlike device into which you can put bits and have them arrive at the correct destination in the correct order. The *Transmission Control Protocol* (TCP) is a protocol that addresses this problem. All Internet-connected devices "speak" it, and most communication on the Internnet is built on top of it.
+> 
+> A TCP connection owrk as follows: one computer must be waiting, or *listening*, for other computers to start talking to it. To be able to listen for different kinds of communication at the same time on a single machine, each listener has a number (called a *port*) associated with it.
+
+> The listening computer is called the *server*, and the connecting computer is called the *client*.
+
+### ◼️ The Web
+
+> Each document on the Web is named by a *Uniform Resource Locator* (URL).
+
+### ◼️ HTML
+
+> HTML, which stands for *Hypertext Markup Language*, is the document format used for web pages.
+
+> To be able to include special characters that have a special meaning in HTML in the text of a document you can use an *entity*. In HTML, an ampersand (&) character followed by a name or character code and a semicolon (;) is an *entity* and will be replaced by the character it encodes.
+
+**◼️ HTML and JavaScript**
+
+**◼️ In the Sandbox**
+
+**◼️ Compatibility and th Browser Wars**
+
+# Chapter 14: The Document Object Model ([link](https://eloquentjavascript.net/14_dom.html))
+
+### ◼️ Document Structure
+
+> You can imagine an HTML document as a nested set of boxes. For each box, there is an object, which we can interact with to find out things such as what HTML tag it represents and which boxes and text it contains. This representation is called the *Document Object Model*, or DOM for short.
+
+> The global bindding `document` gives us access to these objects. Its `documentElement` property refers to the object representing the `<html>` tag.
+
+> Since every HTML document has a head and a body, it also has `head` and `body` properties, pointing at those elements.
+
+### ◼️ Trees
+
+> The DOM has a tree structure and `document.documentElement` serves as the root.
+
+> Nodes for *elements*, which represent HTML tags, determine the structure of the document. These can have child nodes.
+
+> Each DOM node object has a `nodeType` property, which contains a code (number) that identifies the type of node.
+> - Elements have code 1, which is also definend as the constant property `Node.ELEMENT_NODE`
+> - Text nodes, representing a section of text in the document, get code 3 `Node.TEXT_NODE`
+> - Comments have code 8 `Node.COMMENT_NODE`
+
+**◼️ The Standard**
+
+### ◼️ Moving Through the Tree ⭐
+
+> DOM nodes contain a wealth of links to other nearby nodes.
+> 
+> ![html-links](https://eloquentjavascript.net/img/html-links.svg)
+> 
+> Although the diagram shows only one link of each type, every node has a `parentNode` property that points to the node it is part of, if any.
+> 
+> The `firstChild` and `lastChild` properties point to the first and last child elements or have the value `null` for nodes without children.
+> 
+> Similarly, `previousSibling` and `nextSibling` point to adjacent nodes, which are nodes with the same parent that appear immediately before or after the node itself. For a first child, `previousSibling` will be `null`, and for a last child, `nextSibling` will be `null`.
+
+> There's also the `children` property, which is like `childNodes` but contains only element (type) children. This can be useful when you aren't interested in text nodes.
+
+> When dealing with a nested data structure like this one, recursive functions are often useful. The following function scans a document for text nodes containinng a given string and returns `true` when it has found one:
+> ```javascript
+> function talksAbout(node, string) {
+>   if (node.nodeType == Node.ELEMENT_NODE) {
+>     for (let child of node.childNodes) {
+>       if (talksAbout(child, string)) {
+>         return true;
+>       }
+>     }
+>     return false;
+>   } else if (node.nodeType == Node.TEXT_NODE) {
+>     return node.nodeValue.indexOf(string) > -1;
+>   }
+> }
+> ```
+> The `nodeValue` property of a text node holds the string of text that it represents.
+
+### ◼️ Finding Elements
+
+> If we want to get the `href` attribute of the first link in the document, we can do something like this.
+> ```javascript
+> let link = document.body.getElementsByTagName("a")[0];
+> console.log(link.href);
+> ```
+
+> To find a specific *singnle* node, you can give it an `id` attribute and use `document.getElementById` instead.
+> ```html
+> <p>My ostrich Gertrude:</p>
+> <p><img id="gertrude" src="img/ostrich.png"></p>
+> 
+> <script>
+>   let ostrich = document.getElementById("gertrude");
+>   console.log(ostrich.src);
+> </script>
+> ```
+
+> A third, similar method is `getElementsByClassName`, which searches through the contents of an element node and retrieves all elements thhat have the given string in their `class` attribute.
+
+### ◼️ Changing the Document
+
+> Nodes have a `remove` method to remove them from their current parent node.
+
+> To add a child node to an element node, we can use `appendChild`, which puts it at the end of the list of children.
+
+> To modify the structure, we can use `insertBefore`, which inserts the node given as the first argument before the node given as the second argument.
+> ```hmtl
+> <p>One</p>
+> <p>Two</p>
+> <p>Three</p>
+> 
+> <script>
+>   let paragraphs = document.body.getElementsByTagName("p");
+>   document.body.insertBefore(paragraphs[2], paragraphs[0]);
+> </script>
+> ```
+> A node can exist in the document in only one place. Thus, inserting paragraph *Three* in front of paragraph *One* will first remove it from thhe end of the document and then insert it at the front.
+
+> The `replaceChild` method is used to replace a child node with another one. It takes as arguments two nodes: a new node and the node to be replaced. The replaced node must be a child of the element the method is called on.
+
+### ◼️ Creating Nodes
+
+> Say we want to write a script that replaces all images (`<img>` tags) in the document with the text held in their `alt` attributes. Text nodes are created with the `document.createTextNode` method.
+> ```html
+> <p>The <img src="img/cat.png" alt="Cat"> in the
+>   <img src="img/hat.png" alt="Hat">.</p>
+> 
+> <p><button onclick="replaceImages()">Replace</button></p>
+> 
+> <script>
+>   function replaceImages() {
+>     let images = document.body.getElementsByTagName("img");
+>     for (let i = images.length - 1; i >= 0; i--) {
+>       let image = images[i];
+>       if (image.alt) {
+>         let text = document.createTextNode(image.alt);
+>         image.parentNode.replaceChild(text, image);
+>       }
+>     }
+>   }
+> </script>
+> ```
+> The loop that goes over the images starts at the end of the list. This is necessary because the node list returned by a method like `getElementsByTagName` (or a property like `childNodes`) is *live*. That is, it is updated as the document changes.
+> 
+> If you want a *solid* collection of nodes, as opposed to a live one, you can convert the collection to a real array by calling `Array.from`.
+
+> To create element nodes, you ccan use the `document.createElement` method. This method takes a tag name and returns a new empty node of the given type.
+> ```html
+> <blockquote id="quote">
+>   No book can ever be finished. While working on it we learn
+>   just enough to find it immature the moment we turn away
+>   from it.
+> </blockquote>
+> 
+> <script>
+>   function elt(type, ...children) {
+>     let node = document.createElement(type);
+>     for (let child of children) {
+>       if (typeof child != "string") node.appendChild(child);
+>       else node.appendChild(document.createTextNode(child));
+>     }
+>     return node;
+>   }
+> 
+>   document.getElementById("quote").appendChild(
+>     elt("footer", "—",
+>         elt("strong", "Karl Popper"),
+>         ", preface to the second edition of ",
+>         elt("em", "The Open Society and Its Enemies"),
+>         ", 1950"));
+> </script>
+> ```
+
+### ◼️ Attributes ⭐
+
+> HTML allows you to set any attribbute you want on nodes.
+
+> Your own attribute names will not be present as properties on the element's node. Instead, you have to use the `getAttribute` and `setAttribute` methods to work with them.
+> ```html
+> <p data-classified="secret">The launch code is 00000000.</p>
+> <p data-classified="unclassified">I have two feet.</p>
+> 
+> <script>
+>   let paras = document.body.getElementsByTagName("p");
+>   for (let para of Array.from(paras)) {
+>     if (para.getAttribute("data-classified") == "secret") {
+>       para.remove();
+>     }
+>   }
+> </script>
+> ```
+> It is recommended to prefix the names of such made-up attributes with `data-` to ensure they do not conflict with any other attributes.
+
+> There is a commonly used attribute, `class`, which is a keyword in the JavaScript language. For historical reasons the property used to access this attribute is called `className` in this case. You can also access it under its real name, `class`, by using the `getAttribute` and `setAttribute` methods.
+
+### ◼️ Layout ⭐
+
+> The size and position of an element can be accessed from JavaScript. The `offsetWidth` and `offsetHeight` properties give you the space the element takes up in *pixels*. Similarly, `clientWidth` and `clientHeight` give you the size of the space *inside* the element, ignoring border width.
+
+> The most effective way to find the precise position of an element on the screen is the `getBoundingClientRect` method. It returns an object with `top`, `bottom`, `left` and `right` properties, indicating the pixel positions of the sides of the element relative to the top left of the screen. If you want them relative to the whole document, you must add the current scroll position, which you can find in the `pageXOffset` and `pageYOffset` bindings.
+
+> Browser engines do not immediately re-layout a document every time you change it. When a JavaScript program that changed the document finishes running, the browser will have to compute a new layout to draw the changed document to the screen. A program that repeatedly alternates between reading DOM layout information and changing the DOM forces a lot of layout computations to happen and will consquently run very slowly.
+> ```html
+> <p><span id="one"></span></p>
+> <p><span id="two"></span></p>
+> `<script>`
+>   function time(name, action) {
+>     let start = Date.now(); // Current time in milliseconds
+>     action();
+>     console.log(name, "took", Date.now() - start, "ms");
+>   }
+> 
+>   time("naive", () => {
+>     let target = document.getElementById("one");
+>     while (target.offsetWidth < 2000) {
+>       target.appendChild(document.createTextNode("X"));
+>     }
+>   });
+>   // → naive took 32 ms
+> 
+>   time("clever", function() {
+>     let target = document.getElementById("two");
+>     target.appendChild(document.createTextNode("XXXXX"));
+>     let total = Math.ceil(2000 / (target.offsetWidth / 5));
+>     target.firstChild.nodeValue = "X".repeat(total);
+>   });
+>   // → clever took 1 ms
+> </script>
+> ```
+
+### ◼️ Styling
+
+> JavaScript code can direclty manipulate the style of an element through the element's `style` property. This property holds an object that has properties for all possible style properties. The values of these properties are strings, which we can write to in order to change a particular aspect of the element's style.
+
+> Some style property names contain hyphens, such as `font-family`. Because such property names are awkward to work with in JavaScript, the property names in the `style` object for such properties have their hyphens removed and the letters after them capitalized (`style.fontFamily`).
+
+### Cascading Styles
+
+> The styling system for HTML is called CSS, for *Cascading Style Sheets*.
+
+> When multiple rules define a value for the same property, the most recently read rule gets a higher precedence and wins.
+
+> A rule for `.abc` applies to all elements with `"abc"` in their `class` attribute.
+
+> A rule for `#xyz` applies to the element with an `id` attribute of `"xyz"` (which should be unique within the document).
+
+> The precedence rule favoring the most recently defined rule applies only when the rules have the same *specificity*. For example, a rule that targets `p .a` is more specific than rules that target `p` or just `.a` and would thus take precedence over them.
+
+> The notation `p > a` applies the given styles to all `<a>` tags that are direct children of `<p>` tags.
+
+> The notation `p a` applies to all `<a>` tags inside `<p>` tags, whether they are direct or indirect children.
+
+### Query Selectors
+
+> The `querySelectorAll` method, which is defined both on the `document` object and on element nodes, takes a selector string and returns a `NodeList` containing all the elements that it matches.
+> ```html
+> <p>And if you go chasing
+>   <span class="animal">rabbits</span></p>
+> <p>And you know you're going to fall</p>
+> <p>Tell 'em a <span class="character">hookah smoking
+>   <span class="animal">caterpillar</span></span></p>
+> <p>Has given you the call</p>
+> 
+> <script>
+>   function count(selector) {
+>    return document.querySelectorAll(selector).length;
+>   }
+>   console.log(count("p"));           // All <p> elements
+>   // → 4
+>   console.log(count(".animal"));     // Class animal
+>   // → 2
+>   console.log(count("p .animal"));   // Animal inside of <p>
+>   // → 2
+>   console.log(count("p > .animal")); // Direct child of <p>
+>   // → 1
+> </script>
+> ```
+> Unlike methods such as `getElementsByTagName`, the object returned by `querySelectorAll` is *not* live. It is still not a real array, though, so you still need to call `Array.from` if you wanat to treat it like one.
+
+> The `querySelector` method works in a similar way. It will return only the first matching element or null when no element matches.
+
+### Positioning and Animating
+
+> By default, the `position` style property has a value of `static`, meaning the element sits in its normal place in the document.
+> 
+> When it is set to `relative`, the element still takes up space in the document, but now the `top` and `left` style properties can be used to move it relative to that normal place.
+> 
+> When `position` is set to `absolute`, the element is removed from the normal document flow (i.e. it no longer takes up space and may overlap with other elements). Also, its `top` and `left` properties can be used to absolutely position it relative to the top-left corner of the nearest enclosing element whose `position` property isn't `static`, or relative to the document if no such enclosing element exists.
+
+> We can use this to create an animation.
+> ```html
+> <p style="text-align: center">
+>   <img src="img/cat.png" style="position: relative">
+> </p>
+> <script>
+>   let cat = document.querySelector("img");
+>   let angle = Math.PI / 2;
+>   function animate(time, lastTime) {
+>     if (lastTime != null) {
+>       angle += (time - lastTime) * 0.001;
+>     }
+>     cat.style.top = (Math.sin(angle) * 20) + "px";
+>     cat.style.left = (Math.cos(angle) * 200) + "px";
+>     requestAnimationFrame(newTime => animate(newTime, time));
+>   }
+>   requestAnimationFrame(animate);
+> </script>
+> ```
+> The script uses `requestAnimationFrame` to schedule the `animate` function to run whenever the browser is ready to repaint the screen. The `animate` function itself again calls `requestAnimationFrame` to schedule the next update. If we just updated the DOM in a loop, the page would freeze, and nothing would show up on the screen. Browsers do not update their display while a JavaScript program is running, nor do they allow any interaction with the page.
+> 
+> This is why we need `requestAnimationFrame`, it lets the browser know that we are done for now.
+> 
+> Note that styles usually need *units*. In this case, we hhaave to append `"px"` to the number to tell the browser that we are counting in pixels.
+
 # Chapter 15: Handling Events (Coming soon)
 # Chapter 16: Project: A Platform Game (Coming soon)
 # Chapter 17: Drawing on Canvas (Coming soon)
