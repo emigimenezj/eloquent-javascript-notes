@@ -16,7 +16,7 @@
 
 ### ◼️ Strings
 
-> Strings are writteng by enclosing their contnent in quotes, you can use single quotes, double quotes or backticks.
+> Strings are written by enclosing their contnent in quotes, you can use single quotes, double quotes or backticks.
 
 > You can use a backslash `\` to escape a character in strings.
  
@@ -414,7 +414,7 @@
 > 
 > Square bracket array notation similarly allows the triple-dot operator to spread another array into the new array.
 > ```javascript
-> let words = ["never, "fully"]
+> let words = ["never", "fully"]
 > console.log(["will", ...words, "understand"]);
 > // → ["will", "never", "fully", "understand"]
 > ```
@@ -597,7 +597,7 @@
 
 > Class declarations currently allow only *methods* (properties that hold functions) to be added to the prototype. If you want to save a non-function value, you can create such properties by direclty manipulating the prototype after you've defined the class.
 
-> Like `functions`, `class` can be used both in statementns and in expressions.
+> Like `functions`, `class` can be used both in statements and in expressions.
 
 **◼️ Overriding Derived Properties**
 
@@ -618,7 +618,7 @@
 > ```
 > The methods `set`, `get` and `has` are part of the interface of the Map object.
 
-> It is useful to know that `Object.keys` returns onlye an object's *own* keys, not those in the prototype.
+> It is useful to know that `Object.keys` returns only an object's *own* keys, not those in the prototype.
 
 > As an alternative to the `in` operator, you can use the `hasOwnProperty` method, which ignores the object's prototype.
 > ```javascript
@@ -665,7 +665,7 @@
 > }
 > ```
 > 
-> So now, we'll haave our iterator produce objects with `x`, `y` and `value` properties.
+> So now, we'll have our iterator produce objects with `x`, `y` and `value` properties.
 > ```javascript
 > class MatrixIterator {
 >   constructor(matrix) {
@@ -1319,7 +1319,7 @@
 > 
 > But those that do match are called, and their outcome determines what kind of value comes next...
 > - Success: when it returns a non-promise value.
-> - Rejection: whenn it throws an exception.
+> - Rejection: when it throws an exception.
 > - Another promise: when the outcome is a promise.
 > ```javascript
 > new Promise((_, reject) => reject(new Error("Fail")))
@@ -1363,7 +1363,7 @@
 
 > An async function is marked by the word `async` before the `function` keyword.
 > 
-> Inside an `async` function, the word `await` can be put in front of an expression to wait for a promise to resolve and only then continue the execution of the function. Such a function no longer runs from start to competion in one go. Instead, it can be *frozen* at any point that has an `await`, and can bbe resumed at a later time.
+> Inside an `async` function, the word `await` can be put in front of an expression to wait for a promise to resolve and only then continue the execution of the function. Such a function no longer runs from start to competion in one go. Instead, it can be *frozen* at any point that has an `await`, and can be resumed at a later time.
 
 ### ◼️ Generators ⭐
 
@@ -1605,7 +1605,7 @@
 
 > HTTP treats the network as a streamlike device into which you can put bits and have them arrive at the correct destination in the correct order. The *Transmission Control Protocol* (TCP) is a protocol that addresses this problem. All Internet-connected devices "speak" it, and most communication on the Internnet is built on top of it.
 > 
-> A TCP connection owrk as follows: one computer must be waiting, or *listening*, for other computers to start talking to it. To be able to listen for different kinds of communication at the same time on a single machine, each listener has a number (called a *port*) associated with it.
+> A TCP connection work as follows: one computer must be waiting, or *listening*, for other computers to start talking to it. To be able to listen for different kinds of communication at the same time on a single machine, each listener has a number (called a *port*) associated with it.
 
 > The listening computer is called the *server*, and the connecting computer is called the *client*.
 
@@ -1631,7 +1631,7 @@
 
 > You can imagine an HTML document as a nested set of boxes. For each box, there is an object, which we can interact with to find out things such as what HTML tag it represents and which boxes and text it contains. This representation is called the *Document Object Model*, or DOM for short.
 
-> The global bindding `document` gives us access to these objects. Its `documentElement` property refers to the object representing the `<html>` tag.
+> The global binding `document` gives us access to these objects. Its `documentElement` property refers to the object representing the `<html>` tag.
 
 > Since every HTML document has a head and a body, it also has `head` and `body` properties, pointing at those elements.
 
@@ -1747,7 +1747,7 @@
 > 
 > If you want a *solid* collection of nodes, as opposed to a live one, you can convert the collection to a real array by calling `Array.from`.
 
-> To create element nodes, you ccan use the `document.createElement` method. This method takes a tag name and returns a new empty node of the given type.
+> To create element nodes, you can use the `document.createElement` method. This method takes a tag name and returns a new empty node of the given type.
 > ```html
 > <blockquote id="quote">
 >   No book can ever be finished. While working on it we learn
@@ -1878,7 +1878,7 @@
 >   // → 1
 > </script>
 > ```
-> Unlike methods such as `getElementsByTagName`, the object returned by `querySelectorAll` is *not* live. It is still not a real array, though, so you still need to call `Array.from` if you wanat to treat it like one.
+> Unlike methods such as `getElementsByTagName`, the object returned by `querySelectorAll` is *not* live. It is still not a real array, though, so you still need to call `Array.from` if you want to treat it like one.
 
 > The `querySelector` method works in a similar way. It will return only the first matching element or null when no element matches.
 
@@ -1913,7 +1913,7 @@
 > 
 > This is why we need `requestAnimationFrame`, it lets the browser know that we are done for now.
 > 
-> Note that styles usually need *units*. In this case, we hhaave to append `"px"` to the number to tell the browser that we are counting in pixels.
+> Note that styles usually need *units*. In this case, we have to append `"px"` to the number to tell the browser that we are counting in pixels.
 
 # Chapter 15: Handling Events (Coming soon)
 # Chapter 16: Project: A Platform Game (Coming soon)
