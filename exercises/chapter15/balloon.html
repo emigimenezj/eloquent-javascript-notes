@@ -1,0 +1,37 @@
+<!--
+Write a page that displays a balloon (using the balloon emoji, 🎈).
+When you press the up arrow, it should inflate (grow) 10 percent, and when you press the down arrow, it should deflate (shrink) 10 percent.
+When that works, add a feature where, if you blow up the balloon past a certain size, it explodes.
+In this case, exploding means that it is replaced with an 💥 emoji, and the event handler is removed (so that you can’t inflate or deflate the explosion).
+-->
+
+<!-- MY WAY AND THE SOLUTION -->
+
+<p>🎈</p>
+
+<script>
+  let p = document.querySelector("p");
+  let size = 20;
+  p.style.fontSize = size + "px";
+  
+  document.body.addEventListener("keydown", handleArrow);
+  
+  function handleArrow(event) {
+    if (event.key === "ArrowUp") {
+      if (size > 100) explode();
+      size *= 1.1;
+      p.style.fontSize = size + "px";
+      event.preventDefault();
+    }
+    if (event.key === "ArrowDown") {
+      size *= 0.9;
+      p.style.fontSize = size + "px";
+      event.preventDefault();
+    }
+  }
+  
+  function explode() {
+    p.textContent = "💥";
+    document.body.removeEventListener("keydown", handleArrow)
+  }
+</script>
