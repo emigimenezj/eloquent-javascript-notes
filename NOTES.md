@@ -1915,7 +1915,120 @@
 > 
 > Note that styles usually need *units*. In this case, we have to append `"px"` to the number to tell the browser that we are counting in pixels.
 
-# Chapter 15: Handling Events (Coming soon)
+# Chapter 15: Handling Events ([link](https://eloquentjavascript.net/15_event.html))
+
+**◼️ Event Handlers**
+
+### ◼️ Events and DOM Nodes
+
+> Each browser event handler is registered in a `context` (i.e. DOM node). Event listeners are called only when the event happens in the context of the object they are registered on.
+
+> A node can have only one `onclick` attribute, so you can register only one handler per node that way.
+
+> The `addEventListener` method allows you to register an event in a `context`. The `removeEventListener` method allows you to unregistered an event handler (need a function name to spot it).
+
+**◼️ Event Objects**
+
+### ◼️ Propagation
+
+> For most event types, handlers registered on nodes with children will also receive events that happen in the children. But if both the parent node and the child node have a handler for the same event, the more specific handler (the one on the child node) gets to go first.
+
+> At any point, an event handler can call the `stopPropagation` method on the event object (first event handler argument) to prevent handlers further up from receiving the event.
+
+> Most event objects have a `target` property that refers to the node where they originated.
+
+### ◼️ Default Actions
+
+> Many events have a default action associated with them. For most types of events, the JavaScript event handlers are called _before_ the default behavior takes place.
+
+> If the handler doesn’t want this default action behavior to happen, it can call the `preventDefault` method on the event object.
+
+### ◼️ Key Events
+
+> When a key on the keyboard is pressed, your browser fires a `keydown` event. When it is released, you get a `keyup` event. Despite its name, `keydown` fires not only when the key is physically pushed down. When a key is pressed and held, the event fires again every time the key _repeats_.
+
+> The event object has the `key` property to see which key the event is about. This property holds a string that, for most keys, corresponds to the thing that pressing that key would type. For special keys such as enter, it holds a string that names the key ("Enter", in this case). If you hold shift while pressing a key, that might also influence the name of the key ("v" becomes "V" and "1" may become "!").
+
+> Modifier keys such as `SHIFT`, `CONTROL`, `ALT`, and `META` (command on Mac) generate key events just like normal keys. But when looking for key combinations, you can also find out whether these keys are held down by looking at the `shiftKey`, `ctrlKey`, `altKey`, and `metaKey` properties of keyboard and mouse events.
+
+### ◼️ Pointer Events
+
+> After the `mouseup` event, a `click` event fires on the most specific node that contained both the press and the release of the button. For example, if I press down the mouse button on one paragraph and then move the pointer to another paragraph and release the button, the "click" event will happen on the element that contains both those paragraphs.
+
+> If two clicks happen close together, a `dblclick` (double-click) event also fires, after the second click event.
+
+> To get precise information about the place where a mouse event happened, you can look at its `clientX` and `clientY` properties to get the relative position from the top-left corner of the window. Or you can use `pageX` and `pageY` properties to figure out the relative position from the top-left corner of the whole document.
+
+> Touch events explain.
+
+**◼️ Scroll Events**
+
+### ◼️ Pointer Events
+
+> When an element gains focus, the browser fires a `focus` event on it. When it loses focus, the element gets a `blur` event.  These two events do not propagate.
+
+**◼️ Load Events**
+
+### Events and the Event Loop
+
+> Browser events are scheduled when the event occurs but must wait for other scripts that are running to finish before they get a chance to run. For cases where you really do want to do some time-consuming thing in the background without freezing the page, browsers provide something called `web workers`. To avoid the problems of having multiple threads touching the same data, workers do not share their global scope or any other data with the main script’s environment. Instead, you have to communicate with them by sending messages back and forth.
+
+> ```javascript
+> // code/squareworker.js
+> addEventListener("message", event => {
+>   postMessage(event.data * event.data);
+> });
+> 
+> // Main script
+> let squareWorker = new Worker("code/squareworker.js");
+> squareWorker.addEventListener("message", event => {
+>   console.log("The worker responded:", event.data);
+> });
+> squareWorker.postMessage(10);
+> squareWorker.postMessage(42);
+> 
+> // Output
+> // ---> The worker responded: 100
+> // ---> The worker responded: 576
+> ```
+> The postMessage function sends a message, which will cause a "message" event to fire in the receiver. The script that created the worker sends and receives messages through the Worker object, whereas the worker talks to the script that created it by sending and listening directly on its global scope. Only values that can be represented as JSON can be sent as messages (the other side will receive a copy of them, rather than the value itself).
+
+**◼️ Timers**
+
+### Debouncing
+
+> Some types of events have the potential to fire rapidly, many times in a row (the `mousemove` and `scroll` events, for example). If you do need to do something nontrivial in such a handler, you can use `setTimeout` to make sure you are not doing it too often. This is usually called _debouncing_ the event.
+> ```javascript
+> <textarea>Type something here...</textarea>
+> <script>
+> let textarea = document.querySelector("textarea");
+> let timeout;
+> textarea.addEventListener("input", () => {
+>   clearTimeout(timeout);
+>   timeout = setTimeout(() => console.log("Typed!"), 500);
+> });
+> </script>
+> ```
+> We can use a slightly different pattern if we want to space responses so that they’re separated by at least a certain length of time but want to fire them during a series of events, not just afterward.
+> ```javascript
+> <script>
+>   let scheduled = null;
+>   window.addEventListener("mousemove", event => {
+>     
+>     if (!scheduled) {
+>       setTimeout(() => {
+>         let output = `Mouse at ${scheduled.pageX}, ${scheduled.pageY}`;
+>         document.body.textContent = output;
+>         scheduled = null;
+>       }, 20000);
+>     }
+>     
+>     scheduled = event;
+>   });
+> </script>
+> ```
+
+
 # Chapter 16: Project: A Platform Game (Coming soon)
 # Chapter 17: Drawing on Canvas (Coming soon)
 # Chapter 18: HTTP and Forms (Coming soon)
